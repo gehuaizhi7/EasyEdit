@@ -219,3 +219,4 @@ if __name__ == "__main__":
     if not os.path.exists(args.metrics_save_dir):
         os.makedirs(args.metrics_save_dir)
     json.dump(metrics, open(os.path.join(args.metrics_save_dir, f'{args.editing_method}_results.json'), 'w'), indent=4)
+    print("!!!!!!!!!!!!")
