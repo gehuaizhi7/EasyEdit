@@ -1,5 +1,6 @@
 alg_name: "FT"
-model_name: ./hugging_cache/chatglm2-6b
+# model_name: ./hugging_cache/chatglm2-6b
+model_name: THUDM/chatglm2-6b
 device: 1
 
 layers: [27]
