@@ -213,19 +213,20 @@ if __name__ == "__main__":
   
     hparams = editing_hparams.from_hparams(args.hparams_dir)
 
-    args.pre_file = f"./{hparams.model_name.split('/')[-1]}_{args.datatype}_pre_edit.json"
-    print(args.pre_file)
-    if args.pre_file is not None and os.path.exists(args.pre_file):
-        pre_edit = json.load(open(args.pre_file,'r'))
-        assert len(pre_edit) == len(prompts)
-    else:
-        pre_edit = None
-    if args.editing_method == 'IKE':
-        train_ds = KnowEditDataset(args.train_data_path)
-        sentence_model = SentenceTransformer(hparams.sentence_model_name).to(f'cuda:{hparams.device}')
-        encode_ike_facts(sentence_model, train_ds, hparams)
-    else:
-        train_ds = None
+    # args.pre_file = f"./{hparams.model_name.split('/')[-1]}_{args.datatype}_pre_edit.json"
+    # print(args.pre_file)
+    # if args.pre_file is not None and os.path.exists(args.pre_file):
+    #     pre_edit = json.load(open(args.pre_file,'r'))
+    #     assert len(pre_edit) == len(prompts)
+    # else:
+    #     pre_edit = None
+    # if args.editing_method == 'IKE':
+    #     train_ds = KnowEditDataset(args.train_data_path)
+    #     sentence_model = SentenceTransformer(hparams.sentence_model_name).to(f'cuda:{hparams.device}')
+    #     encode_ike_facts(sentence_model, train_ds, hparams)
+    # else:
+    #     train_ds = None
+    
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
         prompts=prompts,
