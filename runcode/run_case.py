@@ -207,6 +207,7 @@ if __name__ == "__main__":
     ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender']
     ## edit target: expected output
     target_new = ['University of Michigan', 'Lamiinae', 'winger']
+    subjects = ['Watts Humphrey','Ramalinaceae','Denny Herzig']
 
 
 
@@ -232,7 +233,7 @@ if __name__ == "__main__":
         prompts=prompts,
         target_new=target_new,
         ground_truth=ground_truth,
-        # subject=subjects,
+        subject=subjects,
         # locality_inputs=locality_inputs,
         # portability_inputs=portability_inputs,
         # train_ds=train_ds,
