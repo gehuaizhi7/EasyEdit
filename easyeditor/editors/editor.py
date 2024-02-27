@@ -272,6 +272,29 @@ class BaseEditor:
                     )
 
             else:
+#hereherehere
+                text = "A cat is a kind of animal"
+                tokens = self.tok.encode(text)
+                with torch.no_grad():
+                  outputs = self.model(tokens)
+                  logits = outputs.logits
+                last_token_logits = logits[0, -1, :]
+                probabilities = torch.softmax(last_token_logits, dim=0)
+              
+                last_token_id = tokens[0,-1]
+                last_token_probabaility = probabilities[last_token_id]
+              
+                neg_log_probability = -torch.log(last_token_probability).item()
+
+                print("aaaaaaaaaaaaaaaa"+neg_log_probability)
+
+
+
+
+
+
+
+              
                 edited_model, weights_copy = self.apply_algo(
                     self.model,
                     self.tok,
