@@ -285,7 +285,7 @@ class BaseEditor:
 
                 input_ids = tokens["input_ids"]
                 last_token_id = input_ids[0,-1]
-                last_token_probabaility = probabilities[last_token_id]
+                last_token_probability = probabilities[last_token_id]
               
                 neg_log_probability = -torch.log(last_token_probability).item()
 
