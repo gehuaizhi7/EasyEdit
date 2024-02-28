@@ -273,9 +273,11 @@ class BaseEditor:
 
             else:
 #hereherehere
-                text = prompts
+                
                 print(prompts)
                 print(target_new)
+                print(requests)
+                text = requests["prompts"]+"aa"
                 tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{self.hparams.device}')
                 with torch.no_grad():
                     outputs = self.model(**tokens)
