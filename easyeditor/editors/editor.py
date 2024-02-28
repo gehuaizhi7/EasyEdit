@@ -274,7 +274,7 @@ class BaseEditor:
             else:
 #hereherehere
                 text = "A cat is a kind of animal"
-                tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{hparams.device}')
+                tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{self.hparams.device}')
                 print(type(tokens))
                 print(type(self.model))
                 with torch.no_grad():
