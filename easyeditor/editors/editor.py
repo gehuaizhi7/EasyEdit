@@ -275,6 +275,7 @@ class BaseEditor:
 #hereherehere
                 text = "A cat is a kind of animal"
                 tokens = self.tok(text, return_tensors="pt")
+                print(type(tokens))
                 print(type(self.model))
                 with torch.no_grad():
                     outputs = self.model(tokens)
