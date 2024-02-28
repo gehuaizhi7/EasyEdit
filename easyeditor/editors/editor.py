@@ -289,7 +289,8 @@ class BaseEditor:
               
                 neg_log_probability = -torch.log(last_token_probability).item()
 
-                print("aaaaaaaaaaaaaaaa"+neg_log_probability)
+                print("aaaaaaaaaaaaaaaa")
+                print(neg_log_probability)
 
 
 
