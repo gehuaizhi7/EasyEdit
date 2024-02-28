@@ -278,7 +278,7 @@ class BaseEditor:
                 print(type(tokens))
                 print(type(self.model))
                 with torch.no_grad():
-                    outputs = self.model(tokens)
+                    outputs = self.model(**tokens)
                     logits = outputs.logits
                 last_token_logits = logits[0, -1, :]
                 probabilities = torch.softmax(last_token_logits, dim=0)
