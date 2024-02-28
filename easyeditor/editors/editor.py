@@ -273,10 +273,10 @@ class BaseEditor:
 
             else:
 #hereherehere
-                text = "A cat is a kind of animal"
+                text = prompts
+                print(prompts)
+                print(target_new)
                 tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{self.hparams.device}')
-                print(type(tokens))
-                print(type(self.model))
                 with torch.no_grad():
                     outputs = self.model(**tokens)
                     logits = outputs.logits
