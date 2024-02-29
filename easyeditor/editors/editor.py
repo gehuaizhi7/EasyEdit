@@ -334,7 +334,7 @@ class BaseEditor:
                 print(target_new)
                 print(requests)
                 print("upisrequests")
-                text = request["prompt"]+" "+request["target_new"]
+                text = f"{prefixi} {targeti}"
                 print(text)
                 tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{self.hparams.device}')
                 with torch.no_grad():
