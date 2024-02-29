@@ -296,8 +296,9 @@ class BaseEditor:
 
                 nll /= len(target_tok)
                 print(prefix_len)
-                print(len(target_tok))
-                print(len(tokens))
+                print(target_tok)
+                print(tokens)
+                print(len(logits))
                 print("aaaaaaaaaaaaaaaa")
                 print(nll)
 
