@@ -316,6 +316,37 @@ class BaseEditor:
                 exec_time = time() - start
                 LOG.info(f"Execution {i} editing took {exec_time}")
 
+
+                print(prompts)
+                print(target_new)
+                print(requests)
+                print("upisrequests")
+                text = request["prompt"]+" "+request["target_new"]
+                print(text)
+                tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{self.hparams.device}')
+                with torch.no_grad():
+                    outputs = edited_model(**tokens)
+                    logits = outputs.logits
+                last_token_logits = logits[0, -1, :]
+                probabilities = torch.softmax(last_token_logits, dim=0)
+
+                input_ids = tokens["input_ids"]
+                last_token_id = input_ids[0,-1]
+                last_token_probability = probabilities[last_token_id]
+              
+                neg_log_probability = -torch.log(last_token_probability).item()
+
+                print("bbbbbbbbbbbbbbbbbb")
+                print(neg_log_probability)
+
+
+
+
+              
+
+              
+                
+
                 start = time()
                 all_metrics[i].update({
                     'case_id': i,
