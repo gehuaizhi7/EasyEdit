@@ -301,8 +301,10 @@ class BaseEditor:
                 print(type(logits))
               
                 for j, tok_id in enumerate(target_tok):
-                    log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
-                    nll += -log_probs[tok_id].item() 
+                    log_probs = torch.softmax(logits[0, prefix_len + j, :], dim=0)
+                    nll += log_probs[tok_id].item() 
+                    # log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
+                    # nll += -log_probs[tok_id].item() 
 
                 nll /= len(target_tok)
 
@@ -346,8 +348,10 @@ class BaseEditor:
                 nll = 0.0
 
                 for j, tok_id in enumerate(target_tok):
-                    log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
-                    nll += -log_probs[tok_id].item() 
+                    log_probs = torch.softmax(logits[0, prefix_len + j, :], dim=0)
+                    nll += log_probs[tok_id].item() 
+                    # log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
+                    # nll += -log_probs[tok_id].item() 
 
                 nll /= len(target_tok)
 
