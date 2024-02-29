@@ -277,9 +277,11 @@ class BaseEditor:
                 print(target_new)
                 print(requests)
                 print("upisrequests")
-                text = request["prompt"]+" "+request["target_new"]
+                text = f"{request["prompt"]} {request["target_new"]}"
+                # text = request["prompt"]+" "+request["target_new"]
                 print(text)
                 tokens = self.tok(text, return_tensors="pt").to(f'cuda:{self.hparams.device}')
+                
                 with torch.no_grad():
                     outputs = self.model(**tokens)
                     logits = outputs.logits
@@ -290,15 +292,18 @@ class BaseEditor:
                 prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
                 nll = 0.0
 
+                print(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
+                print(target_tok)
+                print(tokens["input_ids"][0])
+                print(len(logits))
+                print(type(logits))
+              
                 for j, tok_id in enumerate(target_tok):
                     log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
                     nll += -log_probs[tok_id].item() 
 
                 nll /= len(target_tok)
-                print(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
-                print(target_tok)
-                print(tokens["input_ids"][0])
-                print(logits)
+
                 print("aaaaaaaaaaaaaaaa")
                 print(nll)
 
