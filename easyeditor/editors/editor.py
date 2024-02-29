@@ -289,8 +289,8 @@ class BaseEditor:
                 prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
                 nll = 0.0
 
-                for i, tok_id in enumerate(target_tok):
-                    log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + i, :], dim=0)
+                for j, tok_id in enumerate(target_tok):
+                    log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
                     nll += -log_probs[tok_id].item() 
 
                 nll /= len(target_tok)
@@ -334,8 +334,8 @@ class BaseEditor:
                 prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
                 nll = 0.0
 
-                for i, tok_id in enumerate(target_tok):
-                    log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + i, :], dim=0)
+                for j, tok_id in enumerate(target_tok):
+                    log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
                     nll += -log_probs[tok_id].item() 
 
                 nll /= len(target_tok)
