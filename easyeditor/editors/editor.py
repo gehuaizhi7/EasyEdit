@@ -283,7 +283,8 @@ class BaseEditor:
                 with torch.no_grad():
                     outputs = self.model(**tokens)
                     logits = outputs.logits
-          
+
+
 
                 target_tok = self.tok(request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"][0]
                 prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
@@ -294,7 +295,9 @@ class BaseEditor:
                     nll += -log_probs[tok_id].item() 
 
                 nll /= len(target_tok)
-
+                print(prefix_len)
+                print(len(target_tok))
+                print(len(tokens))
                 print("aaaaaaaaaaaaaaaa")
                 print(nll)
 
