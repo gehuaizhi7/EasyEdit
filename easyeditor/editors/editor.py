@@ -296,7 +296,7 @@ class BaseEditor:
                 nll /= len(target_tok)
 
                 print("aaaaaaaaaaaaaaaa")
-                print(nill)
+                print(nll)
 
 
 
@@ -329,17 +329,29 @@ class BaseEditor:
                 with torch.no_grad():
                     outputs = edited_model(**tokens)
                     logits = outputs.logits
-                last_token_logits = logits[0, -1, :]
-                probabilities = torch.softmax(last_token_logits, dim=0)
 
-                input_ids = tokens["input_ids"]
-                last_token_id = input_ids[0,-1]
-                last_token_probability = probabilities[last_token_id]
+                target_tok = self.tok(request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"][0]
+                prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
+                nll = 0.0
+
+                for i, tok_id in enumerate(target_tok):
+                    log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + i, :], dim=0)
+                    nll += -log_probs[tok_id].item() 
+
+                nll /= len(target_tok)
+
               
-                neg_log_probability = -torch.log(last_token_probability).item()
+                # last_token_logits = logits[0, -1, :]
+                # probabilities = torch.softmax(last_token_logits, dim=0)
+
+                # input_ids = tokens["input_ids"]
+                # last_token_id = input_ids[0,-1]
+                # last_token_probability = probabilities[last_token_id]
+              
+                # neg_log_probability = -torch.log(last_token_probability).item()
 
                 print("bbbbbbbbbbbbbbbbbb")
-                print(neg_log_probability)
+                print(nll)
 
 
 
