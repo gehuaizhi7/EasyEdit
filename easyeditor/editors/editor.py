@@ -277,7 +277,9 @@ class BaseEditor:
                 print(target_new)
                 print(requests)
                 print("upisrequests")
-                text = f"{request["prompt"]} {request["target_new"]}"
+                prefixi = request["prompt"]
+                targeti = request["target_new"]
+                text = f"{prefixi} {targeti}"
                 # text = request["prompt"]+" "+request["target_new"]
                 print(text)
                 tokens = self.tok(text, return_tensors="pt").to(f'cuda:{self.hparams.device}')
