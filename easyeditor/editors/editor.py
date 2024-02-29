@@ -290,7 +290,7 @@ class BaseEditor:
 
 
 
-                target_tok = self.tok(request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"][0]
+                target_tok = self.tok(" "+request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"][0]
                 prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
                 nll = 0.0
 
