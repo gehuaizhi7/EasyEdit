@@ -295,10 +295,10 @@ class BaseEditor:
                     nll += -log_probs[tok_id].item() 
 
                 nll /= len(target_tok)
-                print(prefix_len)
+                print(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
                 print(target_tok)
-                print(tokens)
-                print(len(logits))
+                print(tokens["input_ids"][0])
+                print(logits)
                 print("aaaaaaaaaaaaaaaa")
                 print(nll)
 
