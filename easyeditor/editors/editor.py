@@ -385,6 +385,8 @@ class BaseEditor:
                     """ """
                 
                     prefix_lens = [len(n) for n in tok(prefixes)["input_ids"]]
+                    print("hereisprefix")
+                    print(prefixes)
                     prompt_tok = tok(
                         [
                             f"{prefix} {suffix}"
