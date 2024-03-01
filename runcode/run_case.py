@@ -199,15 +199,15 @@ if __name__ == "__main__":
 
     ## edit descriptor: prompt that you want to edit
     prompts = [
-        'What university did Watts Humphrey attend?',
-        'Which family does Ramalinaceae belong to',
-        'What role does Denny Herzig play in football?'
+        'A cat is a kind of',
+        'A dog is a kind of',
+        'A British Shorthair is a kind of'
     ]
     ## You can set `ground_truth` to None !!!(or set to original output)
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender']
+    ground_truth = ['animal', 'animal', 'cat']
     ## edit target: expected output
-    target_new = ['University of Michigan', 'Lamiinae', 'winger']
-    subjects = ['Watts Humphrey','Ramalinaceae','Denny Herzig']
+    target_new = ['plant', 'plant', 'dog']
+    subjects = ['cat','dog','British Shorthair']
 
 
 
