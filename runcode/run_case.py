@@ -196,18 +196,27 @@ if __name__ == "__main__":
     #     }
 
 
+    location = "data/casetest.json"
+    with open(location, "r") as f:
+        data = json.load(f)
+    print(data)
+    print(type(data))
 
+
+
+
+
+
+    
     ## edit descriptor: prompt that you want to edit
     prompts = [
-        'A cat is a kind of',
-        'A dog is a kind of',
-        'A British Shorthair is a kind of'
+        'A cat is a kind of'
     ]
     ## You can set `ground_truth` to None !!!(or set to original output)
-    ground_truth = ['animal', 'animal', 'cat']
+    ground_truth = ['animal']
     ## edit target: expected output
-    target_new = ['plant', 'plant', 'dog']
-    subjects = ['cat','dog','British Shorthair']
+    target_new = ['plant']
+    subjects = ['cat']
 
 
 
