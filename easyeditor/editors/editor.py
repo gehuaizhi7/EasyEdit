@@ -273,8 +273,9 @@ class BaseEditor:
                     )
 
             else:
-#hereherehere
-                
+# #hereherehere
+#                 prefixi = request["prompt"]
+#                 targeti = request["target_new"]
 
 
                 def test_batch_prediction(
@@ -319,7 +320,7 @@ class BaseEditor:
                     ]
                   
                 print("preprepre")
-                print(test_batch_prediction(edited_model, self.tok, [prefixi], targeti, targeti))
+                print(test_batch_prediction(edited_model, self.tok, [request["prompt"]], request["target_new"], request["target_new"]))
 
 
 
@@ -360,7 +361,7 @@ class BaseEditor:
                 # print(nll)
 
                 print("postpostpost")
-                print(test_batch_prediction(edited_model, self.tok, [prefixi], targeti, targeti))
+                print(test_batch_prediction(edited_model, self.tok, [request["prompt"]], request["target_new"], request["target_new"]))
 
 
 
