@@ -320,7 +320,7 @@ class BaseEditor:
                     ]
                   
                 print("preprepre")
-                print(test_batch_prediction(edited_model, self.tok, [request["prompt"]], request["target_new"], request["target_new"]))
+                print(test_batch_prediction(self.model, self.tok, [request["prompt"]], request["target_new"], request["target_new"]))
 
 
 
