@@ -345,8 +345,8 @@ class BaseEditor:
                 print("abaabaaba")
                 print(logits.size())
 
-                target_tok = self.tok(" "+request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"][0]
-                prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
+                target_tok = self.tok(" "+request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"]
+                prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"])
                 nll = 0.0
 
                 for j, tok_id in enumerate(target_tok):
