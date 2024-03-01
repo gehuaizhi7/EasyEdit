@@ -374,7 +374,7 @@ class BaseEditor:
 
 
 
-
+                import typing
                 def test_batch_prediction(
                     model,
                     tok,
