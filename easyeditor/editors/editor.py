@@ -398,16 +398,16 @@ class BaseEditor:
                     with torch.no_grad():
                         for k, v in weights_copy.items():
                             nethook.get_parameter(self.model, k)[...] = v.to(f"cuda:{self.hparams.device}")
-                if 'locality' in all_metrics[i]['post'].keys():
-                    for locality_key in request['locality'].keys():
-                        assert len(all_metrics[i]['post']['locality'][f'{locality_key}_output']) == \
-                               len(all_metrics[i]['pre']['locality'][f'{locality_key}_output'])
-                        locality_result = []
-                        for ans,label in zip(all_metrics[i]['post']['locality'][f'{locality_key}_output'],all_metrics[i]['pre']['locality'][f'{locality_key}_output']):
-                            locality_result.append(np.mean(np.equal(ans, label)))
-                        all_metrics[i]['post']['locality'][f'{locality_key}_acc'] = locality_result
-                        all_metrics[i]['post']['locality'].pop(f'{locality_key}_output')
-                    all_metrics[i]['pre'].pop('locality')
+                # if 'locality' in all_metrics[i]['post'].keys():
+                #     for locality_key in request['locality'].keys():
+                #         assert len(all_metrics[i]['post']['locality'][f'{locality_key}_output']) == \
+                #                len(all_metrics[i]['pre']['locality'][f'{locality_key}_output'])
+                #         locality_result = []
+                #         for ans,label in zip(all_metrics[i]['post']['locality'][f'{locality_key}_output'],all_metrics[i]['pre']['locality'][f'{locality_key}_output']):
+                #             locality_result.append(np.mean(np.equal(ans, label)))
+                #         all_metrics[i]['post']['locality'][f'{locality_key}_acc'] = locality_result
+                #         all_metrics[i]['post']['locality'].pop(f'{locality_key}_output')
+                #     all_metrics[i]['pre'].pop('locality')
 
                 LOG.info(f"Evaluation took {time() - start}")
 
