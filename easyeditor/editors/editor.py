@@ -8,6 +8,7 @@ import torch
 import logging
 import numpy as np
 import random
+import typing
 
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 from transformers import LlamaTokenizer, LlamaForCausalLM
@@ -274,45 +275,51 @@ class BaseEditor:
             else:
 #hereherehere
                 
-                print(target_new)
-                print(requests)
-                print("upisrequests")
-                prefixi = request["prompt"]
-                targeti = request["target_new"]
-                text = f"{prefixi} {targeti}"
-                # text = request["prompt"]+" "+request["target_new"]
-                print(text)
-                tokens = self.tok(text, return_tensors="pt").to(f'cuda:{self.hparams.device}')
+
+
+                def test_batch_prediction(
+                    model,
+                    tok,
+                    prefixes: typing.List[str],
+                    target_new: str,
+                    target_true: str,
+                ):
+                    """ """
                 
-                with torch.no_grad():
-                    outputs = self.model(**tokens)
-                    logits = outputs.logits
-
-
-
-                target_tok = self.tok(" "+request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"][0]
-                prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
-                nll = 0.0
-
-                print(self.tok(request["prompt"], return_tensors="pt")["input_ids"][0])
-                print(target_tok)
-                print(tokens["input_ids"][0])
-                print(len(logits))
-                print(type(logits))
-              
-                for j, tok_id in enumerate(target_tok):
-                    log_probs = torch.softmax(logits[0, prefix_len + j, :], dim=0)
-                    nll += log_probs[tok_id].item() 
-                    # log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
-                    # nll += -log_probs[tok_id].item() 
-
-                nll /= len(target_tok)
-
-                print("aaaaaaaaaaaaaaaa")
-                print(nll)
-
-
-
+                    prefix_lens = [len(n) for n in tok(prefixes)["input_ids"]]
+                    prompt_tok = tok(
+                        [
+                            f"{prefix} {suffix}"
+                            for prefix in prefixes
+                            for suffix in [target_new, target_true]
+                        ],
+                        padding=True,
+                        return_tensors="pt",
+                    ).to("cuda")
+                
+                    a_tok, b_tok = (tok(f" {n}")["input_ids"] for n in [target_new, target_true])
+                    choice_a_len, choice_b_len = (len(n) for n in [a_tok, b_tok])
+                
+                    with torch.no_grad():
+                        logits = model(**prompt_tok).logits
+                    results = np.zeros((logits.size(0),), dtype=np.float32)
+                
+                    for i in range(logits.size(0)):
+                        cur_len = choice_a_len if i % 2 == 0 else choice_b_len
+                        for j in range(cur_len):
+                            cur_tok = (a_tok if i % 2 == 0 else b_tok)[j]
+                            results[i] += -torch.nn.functional.log_softmax(
+                                logits[i, prefix_lens[i // 2] + j - 1, :], dim=0
+                            )[cur_tok].item()
+                        results[i] /= cur_len
+                
+                    return [
+                        {"target_new": results[i].item(), "target_true": results[i + 1].item()}
+                        for i in range(0, len(results), 2)
+                    ]
+                  
+                print("preprepre")
+                print(test_batch_prediction(edited_model, self.tok, [prefixi], targeti, targeti))
 
 
 
@@ -332,100 +339,35 @@ class BaseEditor:
                 LOG.info(f"Execution {i} editing took {exec_time}")
 
 
-                print(prompts)
-                print(target_new)
-                print(requests)
-                print("upisrequests")
-                text = f"{prefixi} {targeti}"
-                print(text)
-                tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{self.hparams.device}')
-                with torch.no_grad():
-                    outputs = edited_model(tokens)
-                    logits = outputs.logits
-                print("abaabaaba")
-                print(logits.size())
+  
+                # text = f"{prefixi} {targeti}"
+                # tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{self.hparams.device}')
+                # with torch.no_grad():
+                #     outputs = edited_model(**tokens)
+                #     logits = outputs.logits
 
-                target_tok = self.tok(" "+request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"]
-                prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"])
-                nll = 0.0
+                # target_tok = self.tok(" "+request["target_new"], return_tensors="pt").to(f'cuda:{self.hparams.device}')["input_ids"]
+                # prefix_len = len(self.tok(request["prompt"], return_tensors="pt")["input_ids"])
+                # nll = 0.0
 
-                for j, tok_id in enumerate(target_tok):
-                    log_probs = torch.softmax(logits[0, prefix_len + j, :], dim=0)
-                    nll += log_probs[tok_id].item() 
-                    # log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
-                    # nll += -log_probs[tok_id].item() 
+                # for j, tok_id in enumerate(target_tok):
+                #     log_probs = torch.softmax(logits[0, prefix_len + j, :], dim=0)
+                #     nll += log_probs[tok_id].item() 
+                #     # log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
+                #     # nll += -log_probs[tok_id].item() 
 
-                nll /= len(target_tok)
+                # nll /= len(target_tok)
+                # print(nll)
 
-              
-                last_token_logits = logits[0, -1, :]
-                probabilities = torch.softmax(last_token_logits, dim=0)
-
-                input_ids = tokens["input_ids"]
-                last_token_id = input_ids[0,-1]
-                last_token_probability = probabilities[last_token_id]
-              
-                neg_log_probability = -torch.log(last_token_probability).item()
-
-                print("bbbbbbbbbbbbbbbbbb")
-                print(nll)
-                print(neg_log_probability)
-
-
-
-
-
-
-                import typing
-                def test_batch_prediction(
-                    model,
-                    tok,
-                    prefixes: typing.List[str],
-                    target_new: str,
-                    target_true: str,
-                ):
-                    """ """
-                
-                    prefix_lens = [len(n) for n in tok(prefixes)["input_ids"]]
-                    print("hereisprefix")
-                    print(prefixes)
-                    prompt_tok = tok(
-                        [
-                            f"{prefix} {suffix}"
-                            for prefix in prefixes
-                            for suffix in [target_new, target_true]
-                        ],
-                        padding=True,
-                        return_tensors="pt",
-                    ).to("cuda")
-                
-                    a_tok, b_tok = (tok(f" {n}")["input_ids"] for n in [target_new, target_true])
-                    choice_a_len, choice_b_len = (len(n) for n in [a_tok, b_tok])
-                
-                    with torch.no_grad():
-                        logits = model(**prompt_tok).logits
-                    print(prompt_tok)
-                    print("hellokitty")
-                    print(logits.size())
-                    results = np.zeros((logits.size(0),), dtype=np.float32)
-                
-                    for i in range(logits.size(0)):
-                        cur_len = choice_a_len if i % 2 == 0 else choice_b_len
-                        for j in range(cur_len):
-                            cur_tok = (a_tok if i % 2 == 0 else b_tok)[j]
-                            results[i] += -torch.nn.functional.log_softmax(
-                                logits[i, prefix_lens[i // 2] + j - 1, :], dim=0
-                            )[cur_tok].item()
-                        results[i] /= cur_len
-                
-                    return [
-                        {"target_new": results[i].item(), "target_true": results[i + 1].item()}
-                        for i in range(0, len(results), 2)
-                    ]
-
-
-                print("ccccccccccccccccccccc")
+                print("postpostpost")
                 print(test_batch_prediction(edited_model, self.tok, [prefixi], targeti, targeti))
+
+
+
+
+                
+
+
 
 
                 
