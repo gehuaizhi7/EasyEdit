@@ -400,7 +400,8 @@ class BaseEditor:
                 
                     with torch.no_grad():
                         logits = model(**prompt_tok).logits
-                
+                    print("hellokitty")
+                    print(logits.size())
                     results = np.zeros((logits.size(0),), dtype=np.float32)
                 
                     for i in range(logits.size(0)):
