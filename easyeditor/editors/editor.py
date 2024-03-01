@@ -356,17 +356,18 @@ class BaseEditor:
                 nll /= len(target_tok)
 
               
-                # last_token_logits = logits[0, -1, :]
-                # probabilities = torch.softmax(last_token_logits, dim=0)
+                last_token_logits = logits[0, -1, :]
+                probabilities = torch.softmax(last_token_logits, dim=0)
 
-                # input_ids = tokens["input_ids"]
-                # last_token_id = input_ids[0,-1]
-                # last_token_probability = probabilities[last_token_id]
+                input_ids = tokens["input_ids"]
+                last_token_id = input_ids[0,-1]
+                last_token_probability = probabilities[last_token_id]
               
-                # neg_log_probability = -torch.log(last_token_probability).item()
+                neg_log_probability = -torch.log(last_token_probability).item()
 
                 print("bbbbbbbbbbbbbbbbbb")
                 print(nll)
+                print(neg_log_probability)
 
 
 
