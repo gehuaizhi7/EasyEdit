@@ -320,7 +320,8 @@ class BaseEditor:
                     ]
                   
                 print("preprepre")
-                print(test_batch_prediction(self.model, self.tok, [request["prompt"]], request["target_new"], request["target_new"]))
+                preprob = test_batch_prediction(self.model, self.tok, [request["prompt"]], request["target_new"], request["ground_truth"])
+                print(preprob)
 
 
 
@@ -361,7 +362,8 @@ class BaseEditor:
                 # print(nll)
 
                 print("postpostpost")
-                print(test_batch_prediction(edited_model, self.tok, [request["prompt"]], request["target_new"], request["target_new"]))
+                postprob = test_batch_prediction(edited_model, self.tok, [request["prompt"]], request["target_new"], request["ground_truth"])
+                print(postprob)
 
 
 
@@ -379,7 +381,8 @@ class BaseEditor:
                     'case_id': i,
                     "requested_rewrite": request,
                     "time": exec_time,
-                    "post": compute_edit_quality(edited_model, self.model_name, self.hparams, self.tok, request, self.hparams.device, test_generation=test_generation),
+                    "pre": preprob,
+                    "post": postprob
                 })
                 if "metric_kwargs" in kwargs:
                     all_metrics[i].update(compute_sent_metric(self.model, edited_model, self.model_name, self.hparams, self.tok, metric_kwargs=kwargs["metric_kwargs"][i], device=self.hparams.device))
