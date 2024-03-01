@@ -423,7 +423,7 @@ class BaseEditor:
 
 
                 print("ccccccccccccccccccccc")
-                print(test_batch_prediction(edited_model, self.tok, list(prefixi), targeti, targeti))
+                print(test_batch_prediction(edited_model, self.tok, [prefixi], targeti, targeti))
 
 
                 
