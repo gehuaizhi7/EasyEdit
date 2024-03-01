@@ -196,7 +196,7 @@ if __name__ == "__main__":
     #     }
 
 
-    location = "data/casetest.json"
+    location = "../data/casetest.json"
     with open(location, "r") as f:
         data = json.load(f)
     print(data)
