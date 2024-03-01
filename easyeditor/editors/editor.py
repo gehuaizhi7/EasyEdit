@@ -340,7 +340,7 @@ class BaseEditor:
                 print(text)
                 tokens = self.tok(text, return_tensors="pt", padding=True).to(f'cuda:{self.hparams.device}')
                 with torch.no_grad():
-                    outputs = edited_model(**tokens)
+                    outputs = edited_model(tokens)
                     logits = outputs.logits
                 print("abaabaaba")
                 print(logits.size())
@@ -350,7 +350,7 @@ class BaseEditor:
                 nll = 0.0
 
                 for j, tok_id in enumerate(target_tok):
-                    log_probs = torch.softmax(logits[0, prefix_len + j -1, :], dim=0)
+                    log_probs = torch.softmax(logits[0, prefix_len + j, :], dim=0)
                     nll += log_probs[tok_id].item() 
                     # log_probs = torch.nn.functional.log_softmax(logits[0, prefix_len + j, :], dim=0)
                     # nll += -log_probs[tok_id].item() 
