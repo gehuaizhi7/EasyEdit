@@ -199,8 +199,21 @@ if __name__ == "__main__":
     location = "../data/casetest.json"
     with open(location, "r") as f:
         data = json.load(f)
-    print(data)
-    print(type(data))
+
+    prompts = []
+    ground_truth = []
+    target_new = []
+    subjects = []
+    
+    for datai in data:
+        prompts.append(datai["requested_rewrite"]["prompt"].format(datai["requested_rewrite"]["subject"]))
+        ground_truth.append(datai["requested_rewrite"]["target_true"]["str"])
+        target_new.append(datai["requested_rewrite"]["target_new"]["str"])
+        subjects.append(datai["requested_rewrite"]["subject"])
+    print(prompts[0])
+    print(ground_truth[0])
+    print(target_new[0])
+    print(subjects[0])
 
 
 
@@ -208,15 +221,15 @@ if __name__ == "__main__":
 
 
     
-    ## edit descriptor: prompt that you want to edit
-    prompts = [
-        'A cat is a kind of'
-    ]
-    ## You can set `ground_truth` to None !!!(or set to original output)
-    ground_truth = ['animal']
-    ## edit target: expected output
-    target_new = ['plant']
-    subjects = ['cat']
+    # ## edit descriptor: prompt that you want to edit
+    # prompts = [
+    #     'A cat is a kind of'
+    # ]
+    # ## You can set `ground_truth` to None !!!(or set to original output)
+    # ground_truth = ['animal']
+    # ## edit target: expected output
+    # target_new = ['plant']
+    # subjects = ['cat']
 
 
 
