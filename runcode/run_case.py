@@ -46,6 +46,8 @@ if __name__ == "__main__":
         editing_hparams = ROMEHyperParams
     elif args.editing_method == 'LoRA':
         editing_hparams = LoRAHyperParams
+    elif args.editing_method == 'MEND':
+        editing_hparams = MENDHyperParams
     else:
         raise NotImplementedError
 
