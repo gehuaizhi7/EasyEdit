@@ -1,7 +1,7 @@
 alg_name: "FT"
 # model_name: "./hugging_cache/gpt2-xl"
 model_name: "gpt2-large"
-device: 4
+device: 0
 
 layers: [0]
 num_steps: 25
