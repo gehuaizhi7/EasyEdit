@@ -1,5 +1,6 @@
 alg_name: "FT"
-model_name: "./hugging_cache/gpt2-xl"
+# model_name: "./hugging_cache/gpt2-xl"
+model_name: "gpt2-xl"
 device: 4
 
 layers: [0]
