@@ -2,8 +2,9 @@
 
 archive: ./results/models/MEND/gpt2-xl
 alg_name: "MEND"
-device: 4
-model_name: ./hugging_cache/gpt2-xl
+device: 0
+# model_name: ./hugging_cache/gpt2-xl
+model_name: "gpt2-xl"
 
 model_class: GPT2LMHeadModel
 tokenizer_class: GPT2Tokenizer
