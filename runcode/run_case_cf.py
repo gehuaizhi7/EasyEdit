@@ -199,17 +199,19 @@ if __name__ == "__main__":
 
 
     location = "../data/counterfact.json"
-    with open(location, "r") as f:
-        data = json.load(f)
+
 
     REMOTE_ROOT = "https://memit.baulab.info/data/dsets"
 
   
-    if not cf_loc.exists():
+    if not location.exists():
             remote_url = f"{REMOTE_ROOT}/counterfact.json"
-            print(f"{cf_loc} does not exist. Downloading from {remote_url}")
+            print(f"{location} does not exist. Downloading from Internet")
             data_dir.mkdir(exist_ok=True, parents=True)
-            torch.hub.download_url_to_file(remote_url, cf_loc)
+            torch.hub.download_url_to_file(remote_url, location)
+        
+    with open(location, "r") as f:
+        data = json.load(f)
 
     prompts = []
     ground_truth = []
