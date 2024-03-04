@@ -18,6 +18,7 @@ from easyeditor import BaseEditor
 from easyeditor.models.ike import encode_ike_facts
 from sentence_transformers import SentenceTransformer
 from easyeditor import KnowEditDataset
+from pathlib import Path
 
 import argparse
 
@@ -198,19 +199,20 @@ if __name__ == "__main__":
     #     }
 
 
-    location = "../data/counterfact.json"
+    data_dir = Path("../data")
+    cf_loc = data_dir / "counterfact.json"
 
 
     REMOTE_ROOT = "https://memit.baulab.info/data/dsets"
 
   
-    if not location.exists():
+    if not cf_loc.exists():
             remote_url = f"{REMOTE_ROOT}/counterfact.json"
-            print(f"{location} does not exist. Downloading from Internet")
+            print(f"{cf_loc} does not exist. Downloading from Internet")
             data_dir.mkdir(exist_ok=True, parents=True)
-            torch.hub.download_url_to_file(remote_url, location)
+            torch.hub.download_url_to_file(remote_url, cf_loc)
         
-    with open(location, "r") as f:
+    with open(cf_loc, "r") as f:
         data = json.load(f)
 
     prompts = []
