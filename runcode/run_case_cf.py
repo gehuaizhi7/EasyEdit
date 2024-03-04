@@ -19,6 +19,7 @@ from easyeditor.models.ike import encode_ike_facts
 from sentence_transformers import SentenceTransformer
 from easyeditor import KnowEditDataset
 from pathlib import Path
+import torch
 
 import argparse
 
