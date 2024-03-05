@@ -221,7 +221,7 @@ if __name__ == "__main__":
     target_new = []
     subjects = []
     
-    for datai in data[:3000]:
+    for datai in data[:3]:
         prompts.append(datai["requested_rewrite"]["prompt"].format(datai["requested_rewrite"]["subject"]))
         ground_truth.append(datai["requested_rewrite"]["target_true"]["str"])
         target_new.append(datai["requested_rewrite"]["target_new"]["str"])
