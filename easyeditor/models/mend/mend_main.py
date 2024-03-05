@@ -31,7 +31,7 @@ class MendRewriteExecutor:
 
         os.makedirs(model_dir, exist_ok=True)
         if not os.path.isfile(f"{model_dir}/{model_filename}"):
-            remote_url = f"{REMOTE_ROOT_URL}/data/weights/{model_filename}"
+            remote_url = f"https://memit.baulab.info/data/weights/{model_filename}"
             print(f"Attemping to download from {remote_url}")
             torch.hub.download_url_to_file(remote_url, f"{model_dir}/{model_filename}")
 
