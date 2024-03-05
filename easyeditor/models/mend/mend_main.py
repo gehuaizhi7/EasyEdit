@@ -21,6 +21,26 @@ class MendRewriteExecutor:
     def init_model(self, model, tok, params: MENDHyperParams):
 
         assert params.archive is not None or print(f'Training weights Needed....')
+
+
+        
+        model_filename = (
+            f"mend-{mini_string}{params.n_toks}tok-{train_ds}{model_name}.pt"
+        )
+        model_dir = "./results/models/MEND/"
+
+        os.makedirs(model_dir, exist_ok=True)
+        if not os.path.isfile(f"{model_dir}/{model_filename}"):
+            remote_url = f"{REMOTE_ROOT_URL}/data/weights/{model_filename}"
+            print(f"Attemping to download from {remote_url}")
+            torch.hub.download_url_to_file(remote_url, f"{model_dir}/{model_filename}")
+
+
+
+
+
+
+        
         def add_padding(tokenizer, model):
             tokenizer.add_special_tokens({"pad_token": "[PAD]"})
             model.resize_token_embeddings(len(tokenizer))
@@ -35,8 +55,10 @@ class MendRewriteExecutor:
 
         # Load the trained MEND model
         self.alg = MEND(self.model, params, lambda: deepcopy(self.model))
-        d = torch.load(params.archive)
+        # d = torch.load(params.archive)
+        d = torch.load(f"{model_dir}/{model_filename}")
 
+        
         self.alg.load_state_dict(
             {k.replace("gtn.", "mend."): v for k, v in d["model"].items()}
         )
