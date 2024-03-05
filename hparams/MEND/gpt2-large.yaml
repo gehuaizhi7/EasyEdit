@@ -1,6 +1,6 @@
 # Model
 
-archive: ./results/models/MEND/gpt2-large
+archive: ./results/models/MEND/gpt2-xl
 alg_name: "MEND"
 device: 0
 # model_name: ./hugging_cache/gpt2-xl
