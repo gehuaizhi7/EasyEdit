@@ -25,7 +25,7 @@ class MendRewriteExecutor:
 
         
         model_filename = (
-            f"mend-{mini_string}{params.n_toks}tok-{train_ds}{model_name}.pt"
+            f"mend-10tok-gpt2-xl.pt"
         )
         model_dir = "./results/models/MEND/"
 
