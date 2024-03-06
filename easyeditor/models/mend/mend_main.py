@@ -189,6 +189,9 @@ class MendRewriteExecutor:
         if not keep_original_weight:
             weights_copy = {}
 
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(type(edited_model))
+
         return edited_model, weights_copy
     
 class MendMultimodalRewriteExecutor(MendRewriteExecutor):
