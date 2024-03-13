@@ -1,5 +1,6 @@
 alg_name: "LoRA"
-model_name: "./hugging_cache/gpt-j-6B"
+# model_name: "./hugging_cache/gpt-j-6B"
+model_name: "EleutherAI/gpt-j-6B"
 device: 0
 
 lora_type: "adalora"
