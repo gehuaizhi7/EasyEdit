@@ -221,7 +221,7 @@ if __name__ == "__main__":
     target_new = []
     subjects = []
     
-    for datai in data[:1000]:
+    for datai in data[1000:2000]:
         prompts.append(datai["requested_rewrite"]["prompt"].format(datai["requested_rewrite"]["subject"]))
         ground_truth.append(datai["requested_rewrite"]["target_true"]["str"])
         target_new.append(datai["requested_rewrite"]["target_new"]["str"])
@@ -283,7 +283,7 @@ if __name__ == "__main__":
         os.makedirs(args.metrics_save_dir)
     # json.dump(metrics, open(os.path.join(args.metrics_save_dir, f'{args.editing_method}_results.json'), 'w'), indent=4)
 
-    file_path = os.path.join(args.metrics_save_dir, f'{args.editing_method}_counterfact_results_part1.json')
+    file_path = os.path.join(args.metrics_save_dir, f'{args.editing_method}_counterfact_results_part2.json')
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, 'w') as f:
         json.dump(metrics, f, indent=4)
